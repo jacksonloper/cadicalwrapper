@@ -29,6 +29,7 @@ const char *solve_dimacs(const char *dimacs_input) {
   std::istringstream in(dimacs_input);
   std::string line;
   int num_vars = 0;
+  int num_clauses = 0;
 
   while (std::getline(in, line)) {
     // skip empty lines and comments
@@ -37,7 +38,7 @@ const char *solve_dimacs(const char *dimacs_input) {
 
     if (line[0] == 'p') {
       // parse header: "p cnf <vars> <clauses>"
-      if (sscanf(line.c_str(), "p cnf %d", &num_vars) < 1) {
+      if (sscanf(line.c_str(), "p cnf %d %d", &num_vars, &num_clauses) < 2) {
         const char *err = "{\"error\":\"invalid problem line\"}";
         char *result = (char *)malloc(strlen(err) + 1);
         strcpy(result, err);
